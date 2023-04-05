@@ -7,7 +7,7 @@ with open("openai.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 # OpenAI API 인증 정보를 설정
-openai.api_key = config["api_key"]
+openai.api_key = config["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"]
 
 # GPT-3 모델을 사용하여 텍스트 생성
 def generate_text(prompt):
