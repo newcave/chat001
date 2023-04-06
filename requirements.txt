@@ -1,5 +1,6 @@
 streamlit
 #streamlit_chat import massage
-python-dotenv
+#python-dotenv
+load_dotenv
 openai
 #yaml
