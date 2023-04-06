@@ -23,6 +23,7 @@ if st.session_state['generated']:
 
 
 
+""" 
 load_dotenv('api_key.env')
 openai.api_key = os.environ.get('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')
 def generate_response(prompt):
@@ -36,3 +37,4 @@ def generate_response(prompt):
     )
     message=completion.choices[0].text
     return message
+"""
