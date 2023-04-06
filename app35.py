@@ -1,31 +1,36 @@
 import openai
 import streamlit as st
-import yaml
-
-# OpenAI API 인증 정보를 yaml 파일에서 읽어옴
-with open("openai.yaml", "r") as f:
-    config = yaml.safe_load(f)
-
-# OpenAI API 인증 정보를 설정
-openai.api_key = config["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"]
-
-# GPT-3 모델을 사용하여 텍스트 생성
-def generate_text(prompt):
-    response = openai.Completion.create(
-        engine="text-davinci-002",
+from streamlit_chat import message
+import os 
+from dotenv import load_dotenv
+load_dotenv('api_key.env')
+openai.api_key = os.environ.get('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')
+def generate_response(prompt):
+    completion=openai.Completion.create(
+        engine='text-davinci-003',
         prompt=prompt,
         max_tokens=1024,
         n=1,
         stop=None,
-        temperature=0.5,
+        temperature=0.6,
     )
-    message = response.choices[0].text
+    message=completion.choices[0].text
     return message
 
-# 스트림릿 앱 구현
-st.title("OpenAI GPT-3 텍스트 생성기")
 
-user_input = st.text_input("문장을 입력하세요.", value="", key="input_text")
+st.title("ChatGPT-like Web App")
+#storing the chat
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+user_input=st.text_input("You:",key='input')
 if user_input:
-    output_text = generate_text(user_input)
-    st.write(output_text)
+    output=generate_response(user_input)
+    #store the output
+    st.session_state['past'].append(user_input)
+    st.session_state['generated'].append(output)
+if st.session_state['generated']:
+    for i in range(len(st.session_state['generated'])-1, -1, -1):
+        message(st.session_state["generated"][i], key=str(i))
+        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
