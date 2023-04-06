@@ -42,12 +42,16 @@ from dotenv import load_dotenv
 
 #################################################################################################
 
-import streamlit as st
 import openai
+import streamlit as st
+
+# OpenAI API Key
 openai.api_key = "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"
+
 # GPT-3 모델 ID
 model_engine = "text-davinci-002"
 
+# Chat GPT 생성 함수
 def generate_text(prompt):
     completions = openai.Completion.create(
         engine=model_engine,
@@ -55,19 +59,21 @@ def generate_text(prompt):
         max_tokens=1024,
         n=1,
         stop=None,
-        temperature=0.7,
+        temperature=0.5,
     )
 
     message = completions.choices[0].text
     return message.strip()
 
+# Streamlit 앱
 def main():
-    st.title("Chat GPT")
-    st.write("간단한 대화를 나누어 보세요.1")
+    st.title("Chat GPT API")
+    st.write("간단한 대화를 나누어 보세요.")
 
-    message = st.text_input("사용자: ", "")
+    message = st.text_input("사용자: ")
     if st.button("전송"):
-        st.write("Chat GPT: ", generate_text(message))
+        response = generate_text(message)
+        st.write("Chat GPT API: ", response)
 
 if __name__ == "__main__":
     main()
