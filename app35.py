@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 
 
 load_dotenv('api_key.env')
-openai.api_key = os.environ.get('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')
+openai.api_key = os.environ.get('YOUR SECRET KEY')
+
+
 def generate_response(prompt):
     completion=openai.Completion.create(
         engine='text-davinci-003',
