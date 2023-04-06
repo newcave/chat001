@@ -44,6 +44,12 @@
 import openai
 import streamlit as st
 from streamlit_chat import message
+import os
+
+
+openai.organization = "org-eyteUgwbIbFn3vMjkI5dJ7WE"
+openai.api_key = os.getenv("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")
+openai.Model.list()
  
 openai.api_key = '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'
  
