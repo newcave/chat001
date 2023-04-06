@@ -41,39 +41,45 @@ from dotenv import load_dotenv
 
 
 #################################################################################################
-
 import openai
 import streamlit as st
-
-# OpenAI API Key
-openai.api_key = "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"
-
-# GPT-3 모델 ID
-model_engine = "text-davinci-002"
-
-# Chat GPT 생성 함수
-def generate_text(prompt):
-    completions = openai.Completion.create(
-        engine=model_engine,
+from streamlit_chat import message
+ 
+openai.api_key = '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'
+ 
+def generate_response(prompt):
+    completions = openai.Completion.create (
+        engine="text-davinci-003",
         prompt=prompt,
         max_tokens=1024,
-        n=1,
         stop=None,
-        temperature=0.5,
+        temperature=0,
+        top_p=1,
     )
-
-    message = completions.choices[0].text
-    return message.strip()
-
-# Streamlit 앱
-def main():
-    st.title("Chat GPT API")
-    st.write("간단한 대화를 나누어 보세요.")
-
-    message = st.text_input("사용자: ")
-    if st.button("전송"):
-        response = generate_text(message)
-        st.write("Chat GPT API: ", response)
-
-if __name__ == "__main__":
-    main()
+ 
+    message = completions["choices"][0]["text"].replace("\n", "")
+    return message
+ 
+ 
+st.header("🤖Yunwoong's ChatGPT-3 (Demo)")
+st.markdown("[Be Original](https://yunwoong.tistory.com/)")
+ 
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
+ 
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+ 
+with st.form('form', clear_on_submit=True):
+    user_input = st.text_input('You: ', '', key='input')
+    submitted = st.form_submit_button('Send')
+ 
+if submitted and user_input:
+    output = generate_response(user_input)
+    st.session_state.past.append(user_input)
+    st.session_state.generated.append(output)
+ 
+if st.session_state['generated']:
+    for i in range(len(st.session_state['generated'])-1, -1, -1):
+        message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+        message(st.session_state["generated"][i], key=str(i))
