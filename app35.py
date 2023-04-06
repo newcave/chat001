@@ -4,6 +4,23 @@ import streamlit as st
 import os 
 from dotenv import load_dotenv
 
+
+
+load_dotenv('api_key.env')
+openai.api_key = os.environ.get('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')
+def generate_response(prompt):
+    completion=openai.Completion.create(
+        engine='text-davinci-003',
+        prompt=prompt,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.6,
+    )
+    message=completion.choices[0].text
+    return message
+
+
 st.title("ChatGPT-like Web App")
 #storing the chat
 if 'generated' not in st.session_state:
@@ -23,16 +40,4 @@ if st.session_state['generated']:
 
 
 
-load_dotenv('api_key.env')
-openai.api_key = os.environ.get('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')
-def generate_response(prompt):
-    completion=openai.Completion.create(
-        engine='text-davinci-003',
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.6,
-    )
-    message=completion.choices[0].text
-    return message
+
