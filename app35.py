@@ -44,7 +44,7 @@ from dotenv import load_dotenv
 
 import streamlit as st
 import openai
-openai.api_key = "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"
+openai.api_key = "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"
 # GPT-3 모델 ID
 model_engine = "text-davinci-002"
 
