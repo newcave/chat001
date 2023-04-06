@@ -44,7 +44,7 @@ from dotenv import load_dotenv
 
 import streamlit as st
 import openai
-openai.api_key = "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"
+openai.api_key = "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"
 # GPT-3 모델 ID
 model_engine = "text-davinci-002"
 
@@ -63,7 +63,7 @@ def generate_text(prompt):
 
 def main():
     st.title("Chat GPT")
-    st.write("간단한 대화를 나누어 보세요.")
+    st.write("간단한 대화를 나누어 보세요.1")
 
     message = st.text_input("사용자: ", "")
     if st.button("전송"):
