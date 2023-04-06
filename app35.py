@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 
 # load_dotenv('api_key.env')
-openai.api_key = os.environ.get('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')
-
+# openai.api_key = os.environ.get('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')
+openai.api_key = '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'
 
 def generate_response(prompt):
     completion=openai.Completion.create(
